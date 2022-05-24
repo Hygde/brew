@@ -64,6 +64,15 @@ ssize_t receiveFrom(int sock, uint8_t*buf, struct sockaddr_in6*src_addr) {
     return ret;
 }
 
+void sendTo(int sock, uint8_t*buf, uint8_t len, struct sockaddr_in6*dst_addr) {
+    socklen_t dst_addr_len = sizeof(struct sockaddr_in6);
+    int ret = sendto(sock, buf, len, 0,(struct sockaddr*)dst_addr, dst_addr_len);
+    if (ret < 0) {
+        fprintf(stderr, "Fail to send data! sendto returned %d", ret);
+        exit(ret);
+    }
+}
+
 int main(int argc, char*argv[]) {
     int rc = 0;
     int sock = createSocket();
@@ -76,6 +85,7 @@ int main(int argc, char*argv[]) {
 
     datalen = receiveFrom(sock, buf,&caddr);
     printf("Received port: %u\n", ntohs(*(uint16_t*)buf));
+    sendTo(sock, buf, datalen, &caddr);
 
     close(sock);
 
