@@ -13,7 +13,7 @@
 int createSocket() {
     int ret = socket(AF_INET6, SOCK_DGRAM, 0);
     if (ret < 0) {
-        fprintf(stderr, "Fail to create socket! socket return %d", ret);
+        fprintf(stderr, "Fail to create socket! socket return %d\n", ret);
         exit(ret);
     }
     return ret;
@@ -30,7 +30,7 @@ void bindSocketToPort(int sock, uint16_t port) {
 
     ret = bind(sock, (struct sockaddr*)&saddr, sizeof(saddr));
     if (ret < 0) {
-        fprintf(stderr, "Fail to bind socket! bind returned %d", ret);
+        fprintf(stderr, "Fail to bind socket! bind returned %d\n", ret);
         exit(ret);
     }
 }
@@ -40,13 +40,13 @@ ssize_t receiveFrom(int sock, uint8_t*buf, struct sockaddr_in6*src_addr) {
     socklen_t src_addrlen = sizeof(struct sockaddr_in6);
 
     if(buf == NULL) {
-        fprintf(stderr, "Buffer is a null pointer %hhn", buf);
+        fprintf(stderr, "Buffer is a null pointer %hhn\n", buf);
         exit(EIO);
     }
 
     ret = recvfrom(sock, buf, RX_BUFFER_SIZE, 0, (struct sockaddr *) src_addr, &src_addrlen);
     if (ret <= 0) {
-        fprintf(stderr, "Fail to receive data! recvfrom returned %ld", ret);
+        fprintf(stderr, "Fail to receive data! recvfrom returned %ld\n", ret);
         exit(ret);
     } else {
         printf("Received from: %x:%x:%x:%x:%x:%x:%x:%x\n",
@@ -68,7 +68,7 @@ void sendTo(int sock, uint8_t*buf, uint8_t len, struct sockaddr_in6*dst_addr) {
     socklen_t dst_addr_len = sizeof(struct sockaddr_in6);
     int ret = sendto(sock, buf, len, 0,(struct sockaddr*)dst_addr, dst_addr_len);
     if (ret < 0) {
-        fprintf(stderr, "Fail to send data! sendto returned %d", ret);
+        fprintf(stderr, "Fail to send data! sendto returned %d\n", ret);
         exit(ret);
     }
 }
