@@ -1,0 +1,21 @@
+#!/bin/bash
+
+writePersistentConfig() {
+    { # enabling kernel modules
+        echo "w1_gpio"
+        echo "w1_therm"
+    } >> /etc/modules
+    { # enable ONE-WIRE protocol on pin 4
+        echo "dtoverlay=w1-gpio" # default pin is 4
+        # echo dtoverlay w1-gpio gpiopin=17 pullup=0 # header pin 11
+    } >> /boot/config.txt
+}
+
+user=$(whoami)
+if [[ "$user" == "root" ]]
+then
+    writePersistentConfig
+    reboot now
+else
+    echo "Must be run as root"
+fi
