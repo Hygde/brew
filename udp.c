@@ -72,6 +72,7 @@ void sendTo(int sock, uint8_t*buf, uint8_t len, struct sockaddr_in6*dst_addr) {
     }
 }
 
+#ifdef UNIT_TEST
 int main(int argc, char*argv[]) {
     int rc = 0;
     int sock = createSocket();
@@ -91,3 +92,4 @@ int main(int argc, char*argv[]) {
 
     return rc;
 }
+#endif/*UNIT_TEST*/

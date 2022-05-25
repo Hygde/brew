@@ -60,8 +60,10 @@ float getTemperature(const char* sensor_id) {
     return ret;
 }
 
+#ifdef UNIT_TEST
 int main(int argc, char*argv[]) {
     if(isSensorAvailable("28-3c01f0964257")) {
         printf("temperature: %f\n", getTemperature("28-3c01f0964257"));
     }
 }
+#endif/*UNIT_TEST*/

@@ -21,6 +21,7 @@ void motorChangeMode(const int pin, const int mode) {
     bcm2835_delay(500);
 }
 
+#ifdef UNIT_TEST
 int main(int argc, char*argv[]) {
     initBcm2835();
     initMotor(RPI_GPIO_P1_11);
@@ -30,3 +31,4 @@ int main(int argc, char*argv[]) {
     }
     bcm2835_close();
 }
+#endif/*UNIT_TEST*/
