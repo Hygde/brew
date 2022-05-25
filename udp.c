@@ -45,7 +45,7 @@ ssize_t receiveFrom(int sock, uint8_t*buf, struct sockaddr_in6*src_addr) {
 
     ret = recvfrom(sock, buf, RX_BUFFER_SIZE, 0, (struct sockaddr *) src_addr, &src_addrlen);
     if (ret <= 0) {
-        fprintf(stderr, "Fail to receive data! recvfrom returned %ld\n", ret);
+        fprintf(stderr, "Fail to receive data! recvfrom returned %d\n", (int) ret);
         exit(ret);
     } else {
         printf("Received from: %x:%x:%x:%x:%x:%x:%x:%x\n",
