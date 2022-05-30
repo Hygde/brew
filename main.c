@@ -38,7 +38,8 @@ static void init(struct config* cfg) {
     }
 }
 
-static void closeBrewd() {
+static void closeBrewd(struct config*cfg) {
+    motorChangeMode(cfg->motor_pin, 0);
     closeMotor();
 }
 
@@ -72,7 +73,7 @@ int main(int argc, char*argv[]) {
         sleep(1);
     }
 
-    closeBrewd();
+    closeBrewd(&cfg);
 
     return ret;
 }
