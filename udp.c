@@ -81,7 +81,7 @@ int main(int argc, char*argv[]) {
 
     bindSocketToPort(sock, 2000);
 
-    datalen = receiveFrom(sock, buf,&caddr);
+    datalen = receiveFrom(sock, buf, 0, &caddr);
     caddr.sin6_port = *(uint16_t*)buf;
     printf("Received port: %u\n", ntohs(caddr.sin6_port));
     sendTo(sock, buf, datalen, &caddr);
