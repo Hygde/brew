@@ -22,4 +22,10 @@ void initMotor(const int pin);
  */
 void motorChangeMode(const int pin, const int mode);
 
+/**
+ * @brief Close BCM2835 library
+ * 
+ */
+void closeMotor();
+
 #endif /*__MOTOR_H__*/

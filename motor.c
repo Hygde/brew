@@ -21,6 +21,10 @@ void motorChangeMode(const int pin, const int mode) {
     bcm2835_delay(500);
 }
 
+void closeMotor() {
+    bcm2835_close();
+}
+
 #ifdef UNIT_TEST
 int main(int argc, char*argv[]) {
     initBcm2835();
