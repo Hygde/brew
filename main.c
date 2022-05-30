@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <unistd.h>
-#include <stdatomic.h>
 #include <netinet/in.h>
 #include <bcm2835.h>
 
@@ -18,7 +17,7 @@ struct config {
     unsigned int rx_timeout;
     uint16_t rx_port;
     uint8_t motor_pin;
-    atomic_uint_least8_t state;
+    uint8_t state;
     char*sensor_id;
 };
 
