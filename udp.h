@@ -31,7 +31,7 @@ void bindSocketToPort(int sock, uint16_t port);
  * @param src_addr 
  * @return ssize_t 
  */
-ssize_t receiveFrom(int sock, uint8_t*buf, struct sockaddr_in6*src_addr);
+ssize_t receiveFrom(int sock, uint8_t*buf, int flag, struct sockaddr_in6*src_addr);
 
 /**
  * @brief Send data using a given socket

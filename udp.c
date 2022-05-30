@@ -32,7 +32,7 @@ void bindSocketToPort(int sock, uint16_t port) {
     }
 }
 
-ssize_t receiveFrom(int sock, uint8_t*buf, struct sockaddr_in6*src_addr) {
+ssize_t receiveFrom(int sock, uint8_t*buf, int flag, struct sockaddr_in6*src_addr) {
     ssize_t ret;
     socklen_t src_addrlen = sizeof(struct sockaddr_in6);
 
@@ -41,8 +41,8 @@ ssize_t receiveFrom(int sock, uint8_t*buf, struct sockaddr_in6*src_addr) {
         exit(EIO);
     }
 
-    ret = recvfrom(sock, buf, RX_BUFFER_SIZE, 0, (struct sockaddr *) src_addr, &src_addrlen);
-    if (ret <= 0) {
+    ret = recvfrom(sock, buf, RX_BUFFER_SIZE, flag, (struct sockaddr *) src_addr, &src_addrlen);
+    if (ret <= 0 && (flag & MSG_DONTWAIT) == 0) {
         fprintf(stderr, "Fail to receive data! recvfrom returned %d\n", (int) ret);
         exit(ret);
     } else {
