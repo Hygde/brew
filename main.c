@@ -29,7 +29,7 @@ static void init(struct config* cfg) {
     initMotor(cfg->motor_pin);
     bindSocketToPort(cfg->rx_socket, cfg->rx_port);
     isSensorAvailable(cfg->sensor_id);
-    datalen = receiveFrom(cfg->rx_socket, buffer, &cfg->caddr);
+    datalen = receiveFrom(cfg->rx_socket, buffer, 0, &cfg->caddr);
     if(datalen == 2) {
         cfg->caddr.sin6_port = *(uint16_t*) buffer;
         cfg->state = ACTIVE;
@@ -66,6 +66,9 @@ int main(int argc, char*argv[]) {
         int32_t value = htonl(temp * 1000);
         fprintf(stdout, "Temperature is %f\n", temp);
         sendTo(cfg.tx_socket, (uint8_t*) &value, sizeof(value), &cfg.caddr);
+        if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &cfg.caddr) >= 0) {
+            cfg.state = STOP;
+        }
         sleep(1);
     }
 
