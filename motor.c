@@ -1,4 +1,5 @@
 // gcc motor.c -l bcm2835
+#include "motor.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <bcm2835.h>
