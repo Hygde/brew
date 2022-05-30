@@ -7,8 +7,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#define RX_BUFFER_SIZE 256
-
 int createSocket() {
     int ret = socket(AF_INET6, SOCK_DGRAM, 0);
     if (ret < 0) {

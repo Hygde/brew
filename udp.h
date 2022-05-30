@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define RX_BUFFER_SIZE 256
+
 struct sockaddr_in6;
 
 /**
