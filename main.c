@@ -41,6 +41,8 @@ static void init(struct config* cfg) {
 static void closeBrewd(struct config*cfg) {
     motorChangeMode(cfg->motor_pin, 0);
     closeMotor();
+    close(cfg->tx_socket);
+    close(cfg->rx_socket);
 }
 
 int main(int argc, char*argv[]) {
