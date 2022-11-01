@@ -39,7 +39,7 @@ static void init(struct config* cfg) {
 }
 
 static void closeBrewd(struct config*cfg) {
-    motorChangeMode(cfg->motor_pin, 0);
+    motorChangeMode(cfg->motor_pin);
     closeMotor();
     close(cfg->tx_socket);
     close(cfg->rx_socket);
