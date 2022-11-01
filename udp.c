@@ -63,16 +63,15 @@ ssize_t receiveFrom(int sock, uint8_t*buf, int flag, struct sockaddr_in6*src_add
 
 void sendTo(int sock, uint8_t*buf, uint8_t len, struct sockaddr_in6*dst_addr) {
     printf("Sendiing to: %x:%x:%x:%x:%x:%x:%x:%x\n",
-            ntohs(dst_addr->sin6_addr.s6_addr16[0]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[1]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[2]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[3]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[4]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[5]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[6]),
-            ntohs(dst_addr->sin6_addr.s6_addr16[7])
-        );
-    }
+        ntohs(dst_addr->sin6_addr.s6_addr16[0]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[1]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[2]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[3]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[4]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[5]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[6]),
+        ntohs(dst_addr->sin6_addr.s6_addr16[7])
+    );
     socklen_t dst_addr_len = sizeof(struct sockaddr_in6);
     int ret = sendto(sock, buf, len, 0,(struct sockaddr*)dst_addr, dst_addr_len);
     if (ret < 0) {
