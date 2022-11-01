@@ -17,6 +17,7 @@ struct config {
     unsigned int rx_timeout;
     uint16_t rx_port;
     uint8_t motor_pin;
+    uint8_t motor_state;
     uint8_t state;
     char*sensor_id;
 };
@@ -54,23 +55,32 @@ int main(int argc, char*argv[]) {
         (unsigned int) 30,
         (uint16_t) 2000,
         (uint8_t) RPI_GPIO_P1_11,
+        (uint8_t) 0,
         STOP,
         "28-3c01f0964257"
     };
 
     init(&cfg);
 
-    if (cfg.state == ACTIVE) {
-        motorChangeMode(cfg.motor_pin, 1);
-    }
-
     while(cfg.state == ACTIVE) {
-        float temp = getTemperature(cfg.sensor_id);
-        int32_t value = htonl(temp * 1000);
-        fprintf(stdout, "Temperature is %f\n", temp);
-        sendTo(cfg.tx_socket, (uint8_t*) &value, sizeof(value), &cfg.caddr);
         if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &cfg.caddr) >= 0) {
-            cfg.state = STOP;
+            switch(buffer[0]) {
+                case STOP:
+                    cfg.state = STOP;
+                break;
+                case TOGGLE_MOTOR:
+                    cfg.motor_state = ~cfg.motor_state;
+                    motorChangeMode(cfg.motor_pin, cfg.motor_state);
+                break;
+                case READ_TEMPERATURE:
+                {
+                    float temp = getTemperature(cfg.sensor_id);
+                    int32_t value = htonl(temp * 1000);
+                    fprintf(stdout, "Temperature is %f\n", temp);
+                    sendTo(cfg.tx_socket, (uint8_t*) &value, sizeof(value), &cfg.caddr);
+                }
+                break;
+            }
         }
         sleep(1);
     }
