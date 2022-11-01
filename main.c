@@ -55,7 +55,7 @@ int main(int argc, char*argv[]) {
         (unsigned int) 30,
         (uint16_t) 2000,
         (uint8_t) RPI_GPIO_P1_11,
-        (uint8_t) 0xff,
+        (uint8_t) 0,
         STOP,
         "28-3c01f0964257"
     };
@@ -70,7 +70,7 @@ int main(int argc, char*argv[]) {
                     cfg.state = STOP;
                 break;
                 case TOGGLE_MOTOR:
-                    cfg.motor_state = ~cfg.motor_state;
+                    cfg.motor_state = (cfg.motor_state==0) ? 1 : 0;
                     fprintf(stdout, "Motor state is %u\n", cfg.motor_state);
                     motorChangeMode(cfg.motor_pin, cfg.motor_state);
                 break;
