@@ -71,7 +71,7 @@ void sendTo(int sock, uint8_t*buf, uint8_t len, struct sockaddr_in6*dst_addr) {
         ntohs(dst_addr->sin6_addr.s6_addr16[5]),
         ntohs(dst_addr->sin6_addr.s6_addr16[6]),
         ntohs(dst_addr->sin6_addr.s6_addr16[7]),
-        dst_addr->sin6_port
+        ntohs(dst_addr->sin6_port)
     );
     socklen_t dst_addr_len = sizeof(struct sockaddr_in6);
     int ret = sendto(sock, buf, len, 0,(struct sockaddr*)dst_addr, dst_addr_len);
