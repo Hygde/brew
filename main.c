@@ -59,11 +59,12 @@ int main(int argc, char*argv[]) {
         STOP,
         "28-3c01f0964257"
     };
+    struct sockaddr_in6 nb_info;
 
     init(&cfg);
 
     while(cfg.state == ACTIVE) {
-        if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &cfg.caddr) >= 0) {
+        if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &nb_info) >= 0) {
             fprintf(stdout, "Processing request %u\n", buffer[0]);
             switch(buffer[0]) {
                 case STOP:
