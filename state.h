@@ -4,6 +4,8 @@
 enum state {
     ACTIVE,
     STOP,
+    TOGGLE_MOTOR,
+    READ_TEMPERATURE,
 };
 
 #endif/*__STATE_H__*/

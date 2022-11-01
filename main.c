@@ -39,7 +39,7 @@ static void init(struct config* cfg) {
 }
 
 static void closeBrewd(struct config*cfg) {
-    motorChangeMode(cfg->motor_pin, 0);
+    motorChangeMode(cfg->motor_pin);
     closeMotor();
     close(cfg->tx_socket);
     close(cfg->rx_socket);
@@ -57,20 +57,29 @@ int main(int argc, char*argv[]) {
         STOP,
         "28-3c01f0964257"
     };
+    struct sockaddr_in6 nb_info;
 
     init(&cfg);
 
-    if (cfg.state == ACTIVE) {
-        motorChangeMode(cfg.motor_pin, 1);
-    }
-
     while(cfg.state == ACTIVE) {
-        float temp = getTemperature(cfg.sensor_id);
-        int32_t value = htonl(temp * 1000);
-        fprintf(stdout, "Temperature is %f\n", temp);
-        sendTo(cfg.tx_socket, (uint8_t*) &value, sizeof(value), &cfg.caddr);
-        if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &cfg.caddr) >= 0) {
-            cfg.state = STOP;
+        if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &nb_info) >= 0) {
+            fprintf(stdout, "Processing request %u\n", buffer[0]);
+            switch(buffer[0]) {
+                case STOP:
+                    cfg.state = STOP;
+                break;
+                case TOGGLE_MOTOR:
+                    motorChangeMode(cfg.motor_pin);
+                break;
+                case READ_TEMPERATURE:
+                {
+                    float temp = getTemperature(cfg.sensor_id);
+                    int32_t value = htonl(temp * 1000);
+                    fprintf(stdout, "Temperature is %f\n", temp);
+                    sendTo(cfg.tx_socket, (uint8_t*) &value, sizeof(value), &cfg.caddr);
+                }
+                break;
+            }
         }
         sleep(1);
     }
