@@ -17,9 +17,11 @@ void initMotor(const int pin) {
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
 }
 
-void motorChangeMode(const int pin, const int mode) {
-    bcm2835_gpio_write(pin, mode);
+void motorChangeMode(const int pin) {
+    bcm2835_gpio_write(pin, 1);
     bcm2835_delay(500);
+    bcm2835_gpio_write(pin, 0);
+
 }
 
 void closeMotor() {
@@ -31,8 +33,8 @@ int main(int argc, char*argv[]) {
     initBcm2835();
     initMotor(RPI_GPIO_P1_11);
     for(int i = 0; i < 3; i++) {
-        motorChangeMode(RPI_GPIO_P1_11, HIGH);
-        motorChangeMode(RPI_GPIO_P1_11, LOW);
+        motorChangeMode(RPI_GPIO_P1_11);
+        motorChangeMode(RPI_GPIO_P1_11);
     }
     bcm2835_close();
 }

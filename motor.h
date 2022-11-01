@@ -18,9 +18,8 @@ void initMotor(const int pin);
  * @brief Send a rising/falling edge to the bistable relay
  * 
  * @param pin 
- * @param mode 
  */
-void motorChangeMode(const int pin, const int mode);
+void motorChangeMode(const int pin);
 
 /**
  * @brief Close BCM2835 library
