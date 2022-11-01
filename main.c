@@ -71,6 +71,7 @@ int main(int argc, char*argv[]) {
                 break;
                 case TOGGLE_MOTOR:
                     cfg.motor_state = ~cfg.motor_state;
+                    fprintf(stdout, "Motor state is %u\n", cfg.motor_state);
                     motorChangeMode(cfg.motor_pin, cfg.motor_state);
                 break;
                 case READ_TEMPERATURE:
