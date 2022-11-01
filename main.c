@@ -64,6 +64,7 @@ int main(int argc, char*argv[]) {
 
     while(cfg.state == ACTIVE) {
         if(receiveFrom(cfg.rx_socket, buffer, MSG_DONTWAIT, &cfg.caddr) >= 0) {
+            fprintf(stdout, "Processing request %u\n", buffer[0]);
             switch(buffer[0]) {
                 case STOP:
                     cfg.state = STOP;
