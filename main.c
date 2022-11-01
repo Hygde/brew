@@ -55,7 +55,7 @@ int main(int argc, char*argv[]) {
         (unsigned int) 30,
         (uint16_t) 2000,
         (uint8_t) RPI_GPIO_P1_11,
-        (uint8_t) 0,
+        (uint8_t) 0xff,
         STOP,
         "28-3c01f0964257"
     };
