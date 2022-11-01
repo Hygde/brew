@@ -46,7 +46,7 @@ ssize_t receiveFrom(int sock, uint8_t*buf, int flag, struct sockaddr_in6*src_add
         fprintf(stderr, "Fail to receive data! recvfrom returned %d\n", (int) ret);
         exit(ret);
     } else {
-        printf("Received from: %x:%x:%x:%x:%x:%x:%x:%x\n",
+        printf("Received from: %x:%x:%x:%x:%x:%x:%x:%x data = %x %x\n",
             ntohs(src_addr->sin6_addr.s6_addr16[0]),
             ntohs(src_addr->sin6_addr.s6_addr16[1]),
             ntohs(src_addr->sin6_addr.s6_addr16[2]),
@@ -54,7 +54,9 @@ ssize_t receiveFrom(int sock, uint8_t*buf, int flag, struct sockaddr_in6*src_add
             ntohs(src_addr->sin6_addr.s6_addr16[4]),
             ntohs(src_addr->sin6_addr.s6_addr16[5]),
             ntohs(src_addr->sin6_addr.s6_addr16[6]),
-            ntohs(src_addr->sin6_addr.s6_addr16[7])
+            ntohs(src_addr->sin6_addr.s6_addr16[7]),
+            buf[0],
+            buf[1]
         );
     }
 
