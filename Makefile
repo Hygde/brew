@@ -1,7 +1,12 @@
 CC=gcc
+ARCH=$(shell uname -p)
 CFLAGS=-Wall -Werror
-LDFLAG=-l bcm2835
+LDFLAG=
 SOURCES=$(wildcard *.c)
+
+ifneq ($(ARCH),x86_64)
+LDFLAG+=-l bcm2835
+endif
 
 brewd: $(SOURCES:.c=.o)
 	$(CC) $(CFLAGS) $? $(LDFLAG) -o $@
