@@ -3,7 +3,12 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <netinet/in.h>
+
+#ifdef __x86_64__
+#define RPI_GPIO_P1_11 0xff
+#else
 #include <bcm2835.h>
+#endif
 
 #include "udp.h"
 #include "motor.h"
