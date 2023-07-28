@@ -10,6 +10,7 @@ static FILE* getFilePointer(const char* sensor_id);
 
 static FILE* getFilePointer(const char* sensor_id) {
     FILE* pfile = NULL;
+#ifndef __x86_64__
     char path[256];
 
     sprintf(path, "%s/%s/temperature", DIR_W1_DEVICES, sensor_id);
@@ -17,10 +18,12 @@ static FILE* getFilePointer(const char* sensor_id) {
     if (pfile == NULL) {
         fprintf(stderr, "Fail to open %s\nError code = %d\n", path, errno);
     }
+#endif
     return pfile;
 }
 
 int isSensorAvailable(const char* sensor_id) {
+#ifndef __x86_64__
     DIR* dir = opendir(DIR_W1_DEVICES);
     FILE* psensor = NULL;
     char path[256];
@@ -41,13 +44,14 @@ int isSensorAvailable(const char* sensor_id) {
         exit(errno);
     }
     fclose(psensor);
+#endif
     return 1;
 }
 
 float getTemperature(const char* sensor_id) {
+    float ret = 0.;
     FILE* ptempfile = getFilePointer(sensor_id);
     char buf[DS18B20_BUF_SIZE];
-    float ret = 0.;
 
     if (ptempfile != NULL) {
         int temperature = 0;
@@ -55,6 +59,12 @@ float getTemperature(const char* sensor_id) {
         temperature = atoi(buf);
         ret = temperature / 1000.;
         fclose(ptempfile);
+    } else {
+#ifdef __x86_64__
+        ret = 20. + (rand() % 5001) / 100.;
+#else
+        fprintf(stderr, "Fail to open the file!\n");
+#endif
     }
 
     return ret;
